@@ -6,6 +6,7 @@
 #include <mutex>
 
 std::mutex forks[5];
+std::string philosophers[5] = {"Hume", "Nietzsche", "Marx", "Arendt", "Freud"};
 
 void randomWaitTime(int minSeconds, int maxSeconds){
     int random_num = rand()%(maxSeconds-minSeconds + 1) + minSeconds;
@@ -34,7 +35,7 @@ void getForks(int philosopherNum)
         forks[philosopherNum].lock();
         forks[(philosopherNum + 1)%5].lock();
     }
-    std::cout<< "phil " <<philosopherNum << " got a fork." <<std::endl;
+    std::cout<< philosophers[philosopherNum] << " got a fork." <<std::endl;
 }
 
 void putForks(int philosopherNum)
@@ -49,7 +50,7 @@ void putForks(int philosopherNum)
         forks[philosopherNum].unlock(); // the rest of the philosopher are righties.
         forks[(philosopherNum + 1)%5].unlock();
     }
-    std::cout<< "phil " <<philosopherNum << " put a fork" <<std::endl;
+    std::cout<< philosophers[philosopherNum] << " put a fork" <<std::endl;
 }
 
 void dinnerTime(int philosopherNum)
@@ -69,15 +70,11 @@ int main(int arc, char **argv)
     std::cout<< "It's time to eat!" <<std::endl;
     std::cout<< "Type: 'ctrl + c' at anytime to stop dinner." <<std::endl;  
 
-    std::thread lewis (dinnerTime, 0);
-    std::thread joe (dinnerTime, 1);
-    std::thread bob (dinnerTime, 2);
-    std::thread will (dinnerTime, 3);
-    std::thread mack (dinnerTime, 4);
+    std::thread Hume (dinnerTime, 0);
+    std::thread Nietzsche (dinnerTime, 1);
+    std::thread Marx (dinnerTime, 2);
+    std::thread Arendt (dinnerTime, 3);
+    std::thread Freud (dinnerTime, 4);
 
-    lewis.join();
-
-    // std::cout<< "hello world!" <<std::endl;
-    // std::cout<< "all done!" <<std::endl;
-
+    Hume.join();
 }
